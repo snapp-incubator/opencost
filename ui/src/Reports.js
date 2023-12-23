@@ -61,6 +61,11 @@ const accumulateOptions = [
   { name: "Daily", value: false },
 ];
 
+const labelOptions = [
+  { name: "Cloud/Team", value: 'snappcloud.io/team' },
+  { name: "ALL", value: '' }
+];
+
 const useStyles = makeStyles({
   reportHeader: {
     display: "flex",
@@ -119,9 +124,11 @@ const ReportsPage = () => {
   // Form state, which controls form elements, but not the report itself. On
   // certain actions, the form state may flow into the report state.
   const [window, setWindow] = useState(windowOptions[0].value);
-  const [aggregateBy, setAggregateBy] = useState(aggregationOptions[0].value);
+  const [aggregateBy, setAggregateBy] = useState([aggregationOptions[0].value]);
+
   const [accumulate, setAccumulate] = useState(accumulateOptions[0].value);
   const [currency, setCurrency] = useState("USD");
+  const [label, setLabel] = useState(labelOptions[0].value);
 
   // Report state, including current report and saved options
   const [title, setTitle] = useState("Last 7 days by namespace daily");
@@ -155,8 +162,12 @@ const ReportsPage = () => {
   const routerHistory = useHistory();
   useEffect(() => {
     setWindow(searchParams.get("window") || "6d");
-    setAggregateBy(searchParams.get("agg") || "namespace");
+    setAggregateBy((prevAggregateBy) => {
+      const selectedValues = searchParams.get("agg") || "namespace";
+      return selectedValues.split(',');
+    });
     setAccumulate(searchParams.get("acc") === "true" || false);
+    setLabel(searchParams.get("label") || "");
     setCurrency(searchParams.get("currency") || "USD");
   }, [routerLocation]);
 
@@ -171,8 +182,8 @@ const ReportsPage = () => {
     try {
       const resp = await AllocationService.fetchAllocation(
         window,
-        aggregateBy,
-        { accumulate }
+        aggregateBy.join(','),
+        { accumulate,label }
       );
       if (resp.data && resp.data.length > 0) {
         const allocationRange = resp.data;
@@ -268,6 +279,14 @@ const ReportsPage = () => {
               accumulate={accumulate}
               setAccumulate={(acc) => {
                 searchParams.set("acc", acc);
+                routerHistory.push({
+                  search: `?${searchParams.toString()}`,
+                });
+              }}
+              labelOptions={labelOptions}
+              label={label}
+              setLabel={(label) => {
+                searchParams.set("label", label);
                 routerHistory.push({
                   search: `?${searchParams.toString()}`,
                 });
