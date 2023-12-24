@@ -46,7 +46,7 @@ const windowOptions = [
 
 const aggregationOptions = [
   { name: "Namespace", value: "namespace" },
-  { name: "Cloud/Namespace", value: "namespace,label:snappcloud.io/team" },
+  { name: "Cloud/Namespace", value: "cluster,label:snappcloud.io/team,namespace" },
   { name: "Team", value: "cluster,label:snappcloud.io/team" },
 ];
 
