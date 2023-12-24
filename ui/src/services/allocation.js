@@ -7,11 +7,10 @@ class AllocationService {
     if (this.BASE_URL.includes("PLACEHOLDER_BASE_URL")) {
       this.BASE_URL = `http://localhost:9090/model`;
     }
-
     const { accumulate, filters } = options;
     const params = {
       window: win,
-      aggregate: aggregate ,
+      aggregate: aggregate,
       step: "1d",
     };
     if (typeof accumulate === "boolean") {
