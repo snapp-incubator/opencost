@@ -167,7 +167,7 @@ const ReportsPage = () => {
     try {
       const resp = await AllocationService.fetchAllocation(
         window,
-        aggregateBy.join(','),
+        aggregateBy,
         { accumulate }
       );
       if (resp.data && resp.data.length > 0) {
