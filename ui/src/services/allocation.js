@@ -8,11 +8,10 @@ class AllocationService {
       this.BASE_URL = `http://localhost:9090/model`;
     }
 
-    const { accumulate,label, filters } = options;
+    const { accumulate, filters } = options;
     const params = {
       window: win,
-      aggregate: aggregate,
-      label: label,
+      aggregate: aggregate ,
       step: "1d",
     };
     if (typeof accumulate === "boolean") {
@@ -21,6 +20,7 @@ class AllocationService {
     const result = await axios.get(`${this.BASE_URL}/allocation/compute`, {
       params,
     });
+
     return result.data;
   }
 }

@@ -13,9 +13,6 @@ const Controls = ({
   accumulateOptions,
   accumulate,
   setAccumulate,
-  labelOptions,
-  label,
-  setLabel,
   title,
   cumulativeData,
   currency,
@@ -35,9 +32,6 @@ const Controls = ({
         accumulateOptions={accumulateOptions}
         accumulate={accumulate}
         setAccumulate={setAccumulate}
-        labelOptions={labelOptions}
-        label={label}
-        setLabel={setLabel}
         currency={currency}
         currencyOptions={currencyOptions}
         setCurrency={setCurrency}

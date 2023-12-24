@@ -45,15 +45,9 @@ const windowOptions = [
 ];
 
 const aggregationOptions = [
-  { name: "Cluster", value: "cluster" },
-  { name: "Node", value: "node" },
   { name: "Namespace", value: "namespace" },
-  { name: "Controller kind", value: "controllerKind" },
-  { name: "Controller", value: "controller" },
-  { name: "Service", value: "service" },
-  { name: "Pod", value: "pod" },
-  { name: "Deployment", value: "deployment" },
-  { name: "Container", value: "container" },
+  { name: "Namespace/Cloud", value: "namespace,label:snappcloud.io/team" },
+  { name: "Cluster/Cloud", value: 'cluster,label:snappcloud.io/team' },
 ];
 
 const accumulateOptions = [
@@ -61,10 +55,6 @@ const accumulateOptions = [
   { name: "Daily", value: false },
 ];
 
-const labelOptions = [
-  { name: "Cloud/Team", value: 'snappcloud.io/team' },
-  { name: "ALL", value: '' }
-];
 
 const useStyles = makeStyles({
   reportHeader: {
@@ -124,11 +114,10 @@ const ReportsPage = () => {
   // Form state, which controls form elements, but not the report itself. On
   // certain actions, the form state may flow into the report state.
   const [window, setWindow] = useState(windowOptions[0].value);
-  const [aggregateBy, setAggregateBy] = useState([aggregationOptions[0].value]);
+  const [aggregateBy, setAggregateBy] = useState(aggregationOptions[0].value);
 
   const [accumulate, setAccumulate] = useState(accumulateOptions[0].value);
   const [currency, setCurrency] = useState("USD");
-  const [label, setLabel] = useState(labelOptions[0].value);
 
   // Report state, including current report and saved options
   const [title, setTitle] = useState("Last 7 days by namespace daily");
@@ -162,12 +151,8 @@ const ReportsPage = () => {
   const routerHistory = useHistory();
   useEffect(() => {
     setWindow(searchParams.get("window") || "6d");
-    setAggregateBy((prevAggregateBy) => {
-      const selectedValues = searchParams.get("agg") || "namespace";
-      return selectedValues.split(',');
-    });
+    setAggregateBy(searchParams.get("agg") || "namespace");
     setAccumulate(searchParams.get("acc") === "true" || false);
-    setLabel(searchParams.get("label") || "");
     setCurrency(searchParams.get("currency") || "USD");
   }, [routerLocation]);
 
@@ -183,7 +168,7 @@ const ReportsPage = () => {
       const resp = await AllocationService.fetchAllocation(
         window,
         aggregateBy.join(','),
-        { accumulate,label }
+        { accumulate }
       );
       if (resp.data && resp.data.length > 0) {
         const allocationRange = resp.data;
@@ -279,14 +264,6 @@ const ReportsPage = () => {
               accumulate={accumulate}
               setAccumulate={(acc) => {
                 searchParams.set("acc", acc);
-                routerHistory.push({
-                  search: `?${searchParams.toString()}`,
-                });
-              }}
-              labelOptions={labelOptions}
-              label={label}
-              setLabel={(label) => {
-                searchParams.set("label", label);
                 routerHistory.push({
                   search: `?${searchParams.toString()}`,
                 });
