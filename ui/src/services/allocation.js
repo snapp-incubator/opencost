@@ -16,9 +16,8 @@ class AllocationService {
     if (typeof accumulate === "boolean") {
       params.accumulate = accumulate;
     }
-    const result = await axios.get(`${this.BASE_URL}/allocation/compute`, {
-      params,
-    });
+    const queryString = Object.keys(params).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join("&");
+    const result = await axios.get(`${this.BASE_URL}/allocation/compute?${queryString}`);
 
     return result.data;
   }
