@@ -46,7 +46,7 @@ const windowOptions = [
 
 const aggregationOptions = [
   { name: "Namespace", value: "namespace" },
-  { name: "Cloud/Namespace", value: "cluster,label:snappcloud.io/team,namespace" },
+  // { name: "Cloud/Namespace", value: "cluster,label:snappcloud.io/team,namespace" },
   { name: "Team", value: "cluster,label:snappcloud.io/team" },
 ];
 
@@ -117,7 +117,7 @@ const ReportsPage = () => {
   const [aggregateBy, setAggregateBy] = useState(aggregationOptions[0].value);
 
   const [accumulate, setAccumulate] = useState(accumulateOptions[0].value);
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("IRR");
 
   // Report state, including current report and saved options
   const [title, setTitle] = useState("Last 7 days by namespace daily");
@@ -153,7 +153,7 @@ const ReportsPage = () => {
     setWindow(searchParams.get("window") || "6d");
     setAggregateBy(searchParams.get("agg") || "namespace");
     setAccumulate(searchParams.get("acc") === "true" || false);
-    setCurrency(searchParams.get("currency") || "USD");
+    setCurrency(searchParams.get("currency") || "IRR");
   }, [routerLocation]);
 
   async function initialize() {

@@ -21,7 +21,7 @@ const CloudCost = ({
   cumulativeData = [],
   totalData: totalsRow = {},
   graphData = [],
-  currency = "USD",
+  currency = "IRR",
   drilldown,
   sampleData = false,
 }) => {

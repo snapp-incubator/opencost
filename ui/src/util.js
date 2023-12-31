@@ -321,7 +321,7 @@ export function toCurrency(amount, currency, precision) {
   }
 
   if (currency === undefined || currency === "") {
-    currency = "USD";
+    currency = "IRR";
   }
 
   const opts = {

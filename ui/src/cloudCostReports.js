@@ -51,7 +51,7 @@ const CloudCostReports = () => {
     costMetricOptions[0].value
   );
   const [filters, setFilters] = React.useState([]);
-  const [currency, setCurrency] = React.useState("USD");
+  const [currency, setCurrency] = React.useState("IRR");
   const [selectedProviderId, setSelectedProviderId] = React.useState("");
   const [selectedItemName, setselectedItemName] = React.useState("");
   const sampleData = aggregateBy.includes("item");
@@ -186,7 +186,7 @@ const CloudCostReports = () => {
     setWindow(searchParams.get("window") || "7d");
     setAggregateBy(searchParams.get("agg") || "provider");
     setCostMetric(searchParams.get("costMetric") || "AmortizedNetCost");
-    setCurrency(searchParams.get("currency") || "USD");
+    setCurrency(searchParams.get("currency") || "IRR");
   }, [routerLocation]);
 
   // Initialize once, then fetch report each time setFetch(true) is called
