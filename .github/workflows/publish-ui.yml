@@ -5,7 +5,7 @@ on:
     branches:
       - develop
     paths:
-    - 'ui/**'
+      - 'ui/**'
 
 env:
   REGISTRY: ghcr.io
